@@ -47,6 +47,10 @@ class GrnArray
     @grn.size
   end
 
+  def empty?
+    size == 0
+  end
+
   def each
     @grn.each do |record|
       yield record
