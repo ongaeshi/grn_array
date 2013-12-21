@@ -10,19 +10,27 @@ GrnArray.tmpdb do |array|
   texts << File.read('dummy/dummy2.txt')
   texts << File.read('dummy/dummy3.txt')
 
-  DATA_NUM = 1000
+  DATA_NUM = 10000
 
-  puts "-- Input --"
+  puts "-- GrnArray#select --"
   DATA_NUM.times.each do |index|
     puts index if index % 1000 == 0
     text = texts[rand(3)]
-    array << {text: text, name: index.to_s}
+    array << {text: text}
+  end
+
+  Benchmark.bm(16) do |x|
+    x.report("GrnArray#select") { 100.times { array.select("しかし") } }
+  end
+
+  puts "-- Array#grep --"
+  DATA_NUM.times.each do |index|
+    puts index if index % 1000 == 0
+    text = texts[rand(3)]
     native_array << text
   end
 
-  puts "-- Benchmark --"
   Benchmark.bm(16) do |x|
-    x.report("GrnArray#select") { 100.times { array.select("しかし") } }
     x.report("Array#grep")      { 100.times { native_array.grep(/しかし/) } }
   end
 end
