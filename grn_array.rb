@@ -7,7 +7,8 @@ class GrnArray
 
   def self.tmpdb
     Dir.mktmpdir do |dir|
-      yield FullTextSearchArray.new(File.join(dir, "tmp.db"))
+      # p dir
+      yield self.new(File.join(dir, "tmp.db"))
     end
   end
 
