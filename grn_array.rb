@@ -3,6 +3,7 @@ require 'groonga'
 require 'tmpdir'
 
 class GrnArray
+  attr_accessor :grn
   include Enumerable
 
   def self.tmpdb
@@ -58,6 +59,11 @@ class GrnArray
     end
   end
 
+  def [](index)
+    raise IndexError if index == 0
+    @grn[index]
+  end
+
   class Results
     attr_reader :grn
     include Enumerable
@@ -84,21 +90,14 @@ class GrnArray
       @grn.expression.snippet([[open_tag, close_tag]])
     end
 
-    def snippet_html(open_tag = '<strong>', close_tag = "</strong>")
+    def snippet_html(open_tag = '<strong>', close_tag = '</strong>')
       @grn.expression.snippet([[open_tag, close_tag]], {html_escape: true})
     end
   end
 
   # その内...
-
-  def []
-  end
-
-  def []=
-  end
-
-
   def clear
   end
+  
 end
 
