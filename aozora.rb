@@ -5,13 +5,13 @@ require 'kconv'
 
 def read_file(filename)
   text = File.read(filename)
-  Kconv.kconv(text, Kconv::UTF8)
+  Kconv.kconv(text, Kconv::UTF8).gsub("\r\n", "\n")
 end
 
 array = GrnArray.new("db/aozora.db")
 
 if array.empty?
-  Find.find("#{ENV["HOME"]}/Downloads/tmp/青空文庫")  do |filename|
+  Find.find("#{ENV["HOME"]}/Downloads/tmp/青空文庫/夏目漱石")  do |filename|
     if File.file? filename
       array << {filename: filename, text: read_file(filename)}
     end
@@ -28,7 +28,7 @@ unless ARGV.empty?
   results.each do |record|
     puts "--- #{record.filename} ---"
     snippet.execute(record.text).each do |segment|
-      puts segment.gsub("\r\n", "")
+      puts segment.gsub("\n", "")
     end
   end
 end
