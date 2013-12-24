@@ -59,8 +59,10 @@ class GrnArray
     end
   end
 
+  class IdIsGreaterThanZero < RuntimeError; end
+
   def [](id)
-    raise IndexError if id == 0
+    raise IdIsGreaterThanZero if id == 0
     @grn[id]
   end
 
@@ -68,7 +70,7 @@ class GrnArray
     if block_given?
       @grn.delete(&block)
     else
-      raise IndexError if id == 0
+      raise IdIsGreaterThanZero if id == 0
       @grn.delete(id)
     end
   end
