@@ -59,9 +59,18 @@ class GrnArray
     end
   end
 
-  def [](index)
-    raise IndexError if index == 0
-    @grn[index]
+  def [](id)
+    raise IndexError if id == 0
+    @grn[id]
+  end
+
+  def delete(id = nil, &block)
+    if block_given?
+      @grn.delete(&block)
+    else
+      raise IndexError if id == 0
+      @grn.delete(id)
+    end
   end
 
   class Results

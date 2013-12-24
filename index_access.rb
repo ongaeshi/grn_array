@@ -9,8 +9,21 @@ GrnArray.tmpdb do |array|
     puts id: record.id, name: record.name
   end
 
+  # GrnArray#[](id)
   # p array[0].name               # Error: id > 0
   array[1].name = "A.txt"
 
-  puts id: array[1].id, name: array[1].name, text: array[1].text
+  # GrnArray#delete(id)
+  array.delete(2)
+
+  # GrnArray#delete(&block)
+  array.delete do |record|
+    record.name == "c.txt"
+  end
+
+  # Result
+  puts "----"
+  array.each do |record|
+    puts id: record.id, name: record.name
+  end
 end
