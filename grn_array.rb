@@ -33,9 +33,12 @@ class GrnArray
     if @grn.empty?
       hash.each do |key, value|
         column = key.to_s
-        if value.is_a?(Numeric)
+
+        # @todo Need define_index_column ?
+        if value.is_a?(Float)
+          @grn.define_column(column, "Float")
+        elsif value.is_a?(Numeric)
           @grn.define_column(column, "Int32")
-          # Need define_index_column ?
         else
           @grn.define_column(column, "Text")
           @terms.define_index_column("array_#{column}", @grn, source: "Array.#{column}", with_position: true)

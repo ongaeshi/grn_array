@@ -28,6 +28,8 @@ GrnArray.tmpdb do |array|
   end
 end
 
+puts "==="
+
 GrnArray.tmpdb do |array| 
   array << {text:"aaaa", number: 100}
   array << {text:"bbbb", number: 200}
@@ -40,5 +42,22 @@ GrnArray.tmpdb do |array|
   puts "----"
   array.select("number:>200").each do |record|
     puts text: record.text, number: record.number
+  end
+end
+
+puts "==="
+
+GrnArray.tmpdb do |array| 
+  array << {text:"aaaa", float: 1.5}
+  array << {text:"bbbb", float: 2.5}
+  array << {text:"cccc", float: 3.5}
+
+  array.each do |record|
+    puts text: record.text, float: record.float
+  end
+
+  puts "----"
+  array.select("float:>2.6").each do |record|
+    puts text: record.text, float: record.float
   end
 end
