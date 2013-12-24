@@ -27,3 +27,18 @@ GrnArray.tmpdb do |array|
     puts id: record.id, name: record.name
   end
 end
+
+GrnArray.tmpdb do |array| 
+  array << {text:"aaaa", number: 100}
+  array << {text:"bbbb", number: 200}
+  array << {text:"cccc", number: 300}
+
+  array.each do |record|
+    puts text: record.text, number: record.number
+  end
+
+  puts "----"
+  array.select("number:>200").each do |record|
+    puts text: record.text, number: record.number
+  end
+end

@@ -29,16 +29,21 @@ class GrnArray
     end
   end
 
-  def <<(value)
+  def <<(hash)
     if @grn.empty?
-      value.each do |key, value|
+      hash.each do |key, value|
         column = key.to_s
-        @grn.define_column(column, "Text") # データ型は"Text"決めうち @todo valueの型種類を元に類推出来るはず
-        @terms.define_index_column("array_#{column}", @grn, source: "Array.#{column}", with_position: true)
+        if value.is_a?(Numeric)
+          @grn.define_column(column, "Int32")
+          # Need define_index_column ?
+        else
+          @grn.define_column(column, "Text")
+          @terms.define_index_column("array_#{column}", @grn, source: "Array.#{column}", with_position: true)
+        end
       end
     end
     
-    @grn.add(value)
+    @grn.add(hash)
   end
 
   def select(query)
