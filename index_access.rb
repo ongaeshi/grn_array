@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require_relative './grn_array'
 
 GrnArray.tmpdb do |array| 
@@ -99,5 +100,22 @@ GrnArray.tmpdb do |array|
   puts "----"
   array.select("timestamp:>=#{Time.new(2013).to_i} timestamp:<=#{Time.new(2013,12).to_i}").each do |record|
     puts text: record.text, timestamp: record.timestamp
+  end
+end
+
+puts "==="
+
+GrnArray.tmpdb do |array| 
+  array << {text:"aaaa", text2: "あああ"}
+  array << {text:"bbbb", text2: "いいい"}
+  array << {text:"cccc", text2: "ううう"}
+
+  array.each do |record|
+    p record.attributes
+  end
+
+  puts "----"
+  array.select("あ", {default_column: "text2"}).each do |record|
+    p record.attributes
   end
 end

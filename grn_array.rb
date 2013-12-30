@@ -51,8 +51,8 @@ class GrnArray
     @grn.add(hash)
   end
 
-  def select(query)
-    Results.new(@grn.select(query, {default_column: "text"})) # textカラムを検索時のデフォルトカラムとする
+  def select(query, options = {default_column: "text"})
+    Results.new(@grn.select(query, options))
   end
 
   def size
