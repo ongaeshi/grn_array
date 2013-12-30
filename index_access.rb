@@ -61,3 +61,43 @@ GrnArray.tmpdb do |array|
     puts text: record.text, float: record.float
   end
 end
+
+puts "==="
+
+GrnArray.tmpdb do |array| 
+  array << {text:"aaaa", timestamp: Time.at(0)} # 1970-01-01 09:00:00 +0900
+  array << {text:"bbbb", timestamp: Time.at(1)} # 1970-01-01 09:00:01 +0900
+  array << {text:"cccc", timestamp: Time.at(2)} # 1970-01-01 09:00:02 +0900
+
+  array.each do |record|
+    puts text: record.text, timestamp: record.timestamp
+  end
+
+  puts "----"
+  array.select("timestamp:>1").each do |record|
+    puts text: record.text, timestamp: record.timestamp
+  end
+end
+
+puts "==="
+
+GrnArray.tmpdb do |array| 
+  array << {text:"aaaa", timestamp: Time.new(2013)} # 2013-01-01
+  array << {text:"bbbb", timestamp: Time.now}
+  array << {text:"cccc", timestamp: Time.new(2015)} # 2015-01-01
+
+  array.each do |record|
+    puts text: record.text, timestamp: record.timestamp
+  end
+
+  puts "----"
+  time_int = Time.now.to_i + 1  # Forward 1 sec
+  array.select("timestamp:>#{time_int}").each do |record|
+    puts text: record.text, timestamp: record.timestamp
+  end
+
+  puts "----"
+  array.select("timestamp:>=#{Time.new(2013).to_i} timestamp:<=#{Time.new(2013,12).to_i}").each do |record|
+    puts text: record.text, timestamp: record.timestamp
+  end
+end

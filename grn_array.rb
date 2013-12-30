@@ -35,7 +35,9 @@ class GrnArray
         column = key.to_s
 
         # @todo Need define_index_column ?
-        if value.is_a?(Float)
+        if value.is_a?(Time)
+          @grn.define_column(column, "Time")
+        elsif value.is_a?(Float)
           @grn.define_column(column, "Float")
         elsif value.is_a?(Numeric)
           @grn.define_column(column, "Int32")
